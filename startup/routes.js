@@ -3,11 +3,11 @@ const movies = require("../routes/movies");
 const genres = require("../routes/genres");
 const home = require("../routes/home");
 const rentals = require("../routes/rentals");
-const register = require("../routes/register");
-const auth = require("../routes/auth");
+const users = require("../routes/users");
 const morgan = require("morgan");
 const error = require("../middleware/error");
-const express = require('express')
+const express = require("express");
+const notFound = require("../middleware/notFound");
 
 module.exports = function (app) {
   // middleware
@@ -18,11 +18,15 @@ module.exports = function (app) {
 
   app.use(morgan("tiny"));
   app.use("/", home);
-  app.use("/api/genres", genres);
-  app.use("/api/customers", customers);
-  app.use("/api/movies", movies);
-  app.use("/api/rentals", rentals);
-  app.use("/api/users", register);
-  app.use("/api/login", auth);
+  app.use("/api/v1/genres", genres);
+  app.use("/api/v1/customers", customers);
+  app.use("/api/v1/movies", movies);
+  app.use("/api/v1/rentals", rentals);
+  app.use("/api/v1/users", users);
+
+  // Handle 404 - Not Found
+  app.use(notFound);
+
+  // Error handling middleware
   app.use(error);
 };

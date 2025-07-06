@@ -31,6 +31,15 @@ const logger = winston.createLogger({
         new winston.transports.File({
             filename: 'logs/exceptions.log'
         }),
+        // new winston.transports.Console({
+        //     format: winston.format.combine(
+        //       winston.format.colorize(),
+        //       winston.format.timestamp({ format: 'YYYY-MM-DD hh:mm:ss A' }),
+        //       winston.format.printf(({ level, message, timestamp }) => {
+        //         return `${timestamp} ${level}: ${message}`;
+        //       })
+        //     )
+        //   })
     ],
 
     rejectionHandlers: [

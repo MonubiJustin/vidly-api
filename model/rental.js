@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
-const Joi = require('joi');
 
 
-const Rental = mongoose.model('Rental', new mongoose.Schema({
+const rentalSchema = new mongoose.Schema({
     customer: {
         type: new mongoose.Schema({
             name: {
@@ -51,17 +50,6 @@ const Rental = mongoose.model('Rental', new mongoose.Schema({
         min: 0
     }
 
-}))
+});
 
-function validateRental(body) {
-    const schema = Joi.object({
-        customerId: Joi.objectId().required(),
-        movieId: Joi.objectId().required()
-    })
-
-    return schema.validate(body)
-}
-
-
-exports.Rental = Rental
-exports.vd = validateRental
+module.exports = mongoose.model('Rental', rentalSchema);

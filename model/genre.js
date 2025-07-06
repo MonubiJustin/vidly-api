@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Joi = require('joi');
 
 const schema = new mongoose.Schema({
     name: {
@@ -10,7 +11,10 @@ const schema = new mongoose.Schema({
         maxlength: 50
     }
 }) 
-const Genre = mongoose.model('Genre', schema)
+const Genre = mongoose.model('Genre', schema);
 
-exports.Genre = Genre
-exports.schema = schema
+module.exports = {
+    Genre,
+    schema
+}
+

@@ -1,10 +1,8 @@
 const Joi = require('joi')
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken');
-const config = require('config')
 const _ = require('lodash')
-
-
+const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -33,32 +31,26 @@ const userSchema = new mongoose.Schema({
     }
 })
 
+userSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) return next();
+
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+})
+
+userSchema.methods.isPasswdValid = async function (raw_passwd) {
+    return await bcrypt.compare(raw_passwd, this.password);
+}
+
 userSchema.methods.genAuthToken = function () {
-    const token = jwt.sign(_.pick(this, ['_id', 'name', 'email', 'isAdmin']), config.get('jwtPrivateKey'))
+    const token = jwt.sign(_.pick(this, ['_id', 'name', 'email', 'isAdmin']), process.env.jwtPrivateKey)
     return token;
 }
 
-const User = mongoose.model('User', userSchema)
+exports.User = mongoose.model('User', userSchema)
 
-function validate(body) {
-    const schema = Joi.object({
-        name: Joi.string().required().min(5).max(255).lowercase(),
-        email: Joi.string().email().required(),
-        password: Joi.string().min(8).required()
-    })
 
-    return schema.validate(body)
-}
 
-function auth_validate(body) {
-    const schema = Joi.object({
-        email: Joi.string().email().required(),
-        password: Joi.string().min(8).required()
-    })
 
-    return schema.validate(body)
-}
 
-exports.User = User;
-exports.validate = validate;
-exports.auth_validate = auth_validate

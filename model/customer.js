@@ -13,7 +13,8 @@ const Customer = mongoose.model('Customer', new mongoose.Schema({
     },
     phone: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     } 
 }))
 
