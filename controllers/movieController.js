@@ -50,7 +50,7 @@ exports.addMovie = asyncMiddleware(async (req, res) => {
 });
 
 //desc Updating a movie
-//route PUT /api/v1/customers/:id
+//route PUT /api/v1/movies/:id
 //access private
 exports.updateMovie = asyncMiddleware(async (req, res) => {
   const genre = await Genre.findById(req.body.genreid);
@@ -87,5 +87,5 @@ exports.updateMovie = asyncMiddleware(async (req, res) => {
 exports.deleteMovie = asyncMiddleware(async (req, res) => {
     const movie = await Movie.findByIdAndDelete(req.params.id);
     if (!movie) return res.send("Movie with the given id does not exist");
-    res.json({ message: "Movie deleted successfully", movie: movie });
+    res.status(200).json({ msg: "Movie deleted successfully", movie: movie });
   })

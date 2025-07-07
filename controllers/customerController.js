@@ -38,7 +38,7 @@ exports.addCustomer = asyncMiddleware(async (req, res) => {
 });
 
 //desc Updating a customer
-//route PUT /api/v1/customers
+//route PUT /api/v1/customers/:id
 //access private
 exports.updateCustomer = asyncMiddleware(async (req, res) => {
   const customer = await Customer.findByIdAndUpdate(

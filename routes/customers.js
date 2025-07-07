@@ -15,7 +15,7 @@ router.get("/:id", validateObjectID, customerController.getCustomer);
 router.post("/", validate(vd_customers), customerController.addCustomer);
 
 // updating an existing customer
-router.put("/:id", validate(vd_customers), customerController.updateCustomer);
+router.put("/:id", validateObjectID, validate(vd_customers), customerController.updateCustomer);
 
 // deleting an existing customer
 router.delete("/:id", validateObjectID, customerController.deleteCustomer);

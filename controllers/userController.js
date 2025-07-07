@@ -11,7 +11,8 @@ exports.registerUser = asyncMiddleware(async (req, res) => {
     user = new User(req.body);
     await user.save();
 
-    res.status(201).json({msg: "User created successfully"})
+    const token = user.genAuthToken()
+    res.header('x-auth-token', token).status(201).json({msg: "User created successfully"})
 })
 
 //@desc Log in user
