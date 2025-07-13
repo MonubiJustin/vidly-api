@@ -30,10 +30,10 @@ exports.addMovie = asyncMiddleware(async (req, res) => {
   if (!genre)
     return res
       .status(404)
-            .json({ msg: "Genre with the given id was not found." });
+      .json({ msg: "Genre with the given id was not found." });
 
-    let movie = await Movie.findOne({ title: req.body.title });
-    if (movie) return res.status(409).json({msg: "Movie already exists"})
+  let movie = await Movie.findOne({ title: req.body.title });
+  if (movie) return res.status(409).json({ msg: "Movie already exists" });
 
   movie = new Movie({
     title: req.body.title,
@@ -80,12 +80,15 @@ exports.updateMovie = asyncMiddleware(async (req, res) => {
   res.status(200).json({ msg: "Movie updates successfully", movie: movie });
 });
 
-
 //desc Deleting a movie
 //route DELETE /api/v1/movies/:id
 //access private
 exports.deleteMovie = asyncMiddleware(async (req, res) => {
-    const movie = await Movie.findByIdAndDelete(req.params.id);
-    if (!movie) return res.send("Movie with the given id does not exist");
-    res.status(200).json({ msg: "Movie deleted successfully", movie: movie });
-  })
+  const movie = await Movie.findByIdAndDelete(req.params.id);
+  if (!movie)
+    return res
+      .status(404)
+      .json({ msg: "Movie with the given id does not exist" });
+
+  res.status(200).json({ msg: "Movie deleted successfully", movie: movie });
+});

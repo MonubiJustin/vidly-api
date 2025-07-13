@@ -3,12 +3,14 @@ const app = express();
 const logger = require("./logger/logger");
 require("dotenv").config();
 
+
 require("./startup/config")();
 require("./startup/routes")(app);
 require("./startup/db")();
 require("./startup/views")(app);
 require("./startup/validation")();
 require("./startup/prod")(app);
+
 
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {

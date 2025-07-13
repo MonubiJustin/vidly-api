@@ -8,6 +8,9 @@ const morgan = require("morgan");
 const error = require("../middleware/error");
 const express = require("express");
 const notFound = require("../middleware/notFound");
+const swaggerDocs = require('./swagger')
+
+  
 
 module.exports = function (app) {
   // middleware
@@ -23,6 +26,7 @@ module.exports = function (app) {
   app.use("/api/v1/movies", movies);
   app.use("/api/v1/rentals", rentals);
   app.use("/api/v1/users", users);
+  swaggerDocs(app)
 
   // Handle 404 - Not Found
   app.use(notFound);
