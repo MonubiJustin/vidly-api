@@ -44,8 +44,7 @@ userSchema.methods.isPasswdValid = async function (raw_passwd) {
 }
 
 userSchema.methods.genAuthToken = function () {
-    const token = jwt.sign(_.pick(this, ['_id', 'name', 'email', 'isAdmin']), process.env.jwtPrivateKey)
-    return token;
+    return jwt.sign(_.pick(this, ['_id', 'name', 'email', 'isAdmin']), process.env.jwtPrivateKey)
 }
 
 exports.User = mongoose.model('User', userSchema)
